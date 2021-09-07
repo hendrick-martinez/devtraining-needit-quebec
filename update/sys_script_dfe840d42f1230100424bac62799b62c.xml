@@ -5,7 +5,7 @@
         <action_delete>false</action_delete>
         <action_insert>true</action_insert>
         <action_query>false</action_query>
-        <action_update>false</action_update>
+        <action_update>true</action_update>
         <active>true</active>
         <add_message>false</add_message>
         <advanced>true</advanced>
@@ -18,7 +18,7 @@
         <filter_condition/>
         <is_rest>false</is_rest>
         <message/>
-        <name>NeedIt When needed field date - H</name>
+        <name>Email Address Syntax Validate - H</name>
         <order>100</order>
         <priority>100</priority>
         <rest_method/>
@@ -28,44 +28,35 @@
         <rest_variables/>
         <role_conditions/>
         <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
-	// rightnow stores the current time
-	var rightnow = new GlideDateTime();
-	// Create a GlideDateTime object for the When needed date
-	var whenNeeded = new GlideDateTime(current.u_when_needed);
-	
-	// If the When needed date is before rightnow, do not write the record to the database
-	// Output an error message to the screen
-	if(whenNeeded.before(rightnow)){
-		gs.addErrorMessage("No debe seleccionar una fecha pasada en el campo When needed. Su solicitud no se ha guardado en la base de datos.");
-		current.setAbortAction(true);
-	}
-	// Challenge:  Do not allow same-day requests
-	// Get the date portion of rightnow and whenNeeded (no timestamp)
-	var today = rightnow.getLocalDate();
-	var istoday = whenNeeded.getLocalDate();
-	// Compare today and istoday to see if they are the same day
-	if(today.compareTo(istoday) == 0){
-		gs.addErrorMessage("No puede actualizar solicitudes de NeedIt al día de hoy.");
+
+	// Add your code here
+// Pass the Requested for email to the Script Include.  Store the return
+	// value from the Script Include in the isEmail variable
+	var isEmail = validateEmailAddress(current.u_requested_for_email);
+	// If isEmail is false (email address syntax is not valid) do not save
+	// the record.  Write an error message to the screen.
+	if(isEmail == false){
+		gs.addErrorMessage(current.u_requested_for_email + " No es una dirección de correo válida. Debe proporcionar una dirección de correo válida.");
 		current.setAbortAction(true);
 	}
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
         <sys_created_by>admin</sys_created_by>
-        <sys_created_on>2021-08-24 17:44:25</sys_created_on>
+        <sys_created_on>2021-08-26 15:11:10</sys_created_on>
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
-        <sys_id>b7a89a672f0230100424bac62799b626</sys_id>
-        <sys_mod_count>11</sys_mod_count>
-        <sys_name>NeedIt When needed field date - H</sys_name>
+        <sys_id>dfe840d42f1230100424bac62799b62c</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Email Address Syntax Validate - H</sys_name>
         <sys_overrides/>
         <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
         <sys_policy/>
         <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
-        <sys_update_name>sys_script_b7a89a672f0230100424bac62799b626</sys_update_name>
+        <sys_update_name>sys_script_dfe840d42f1230100424bac62799b62c</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2021-08-26 16:34:22</sys_updated_on>
+        <sys_updated_on>2021-08-26 15:24:08</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>
-    <sys_translated_text action="delete_multiple" query="documentkey=b7a89a672f0230100424bac62799b626"/>
+    <sys_translated_text action="delete_multiple" query="documentkey=dfe840d42f1230100424bac62799b62c"/>
 </record_update>
